@@ -1,7 +1,7 @@
-// routes/pages.js
 const express = require("express");
 const router = express.Router();
 const products = require("../data/products");
+const { requireAuthPage } = require("../middlewares/auth");
 
 router.get("/", (req, res) => {
   const previewProducts = products.slice(0, 4);
@@ -13,26 +13,9 @@ router.get("/", (req, res) => {
 });
 
 router.get("/produk", (req, res) => {
-  const { kategori, search } = req.query;
-  let filtered = products;
-
-  if (kategori) {
-    filtered = filtered.filter((p) => p.category.toLowerCase() === kategori.toLowerCase());
-  }
-  if (search) {
-    const keyword = search.toLowerCase();
-    filtered = filtered.filter((p) => p.name.toLowerCase().includes(keyword));
-  }
-
-  const categories = [...new Set(products.map((p) => p.category))];
-
   res.render("produk", {
     title: "Produk - Toko Sembako Ariesta",
-    activePage: "produk",
-    products: filtered,
-    categories,
-    currentKategori: kategori || "",
-    currentSearch: search || ""
+    activePage: "produk"
   });
 });
 
@@ -59,6 +42,24 @@ router.get("/tanya-ai", (req, res) => {
   res.render("tanya-ai", {
     title: "Tanya AI - Toko Sembako Ariesta",
     activePage: "tanya-ai"
+  });
+});
+
+router.get("/login", (req, res) => {
+  if (req.session && req.session.user) {
+    return res.redirect("/dashboard");
+  }
+  res.render("login", {
+    title: "Login - Toko Sembako Ariesta",
+    activePage: "login"
+  });
+});
+
+router.get("/dashboard", requireAuthPage, (req, res) => {
+  res.render("dashboard", {
+    title: "Dashboard Admin - Toko Sembako Ariesta",
+    activePage: "dashboard",
+    adminUsername: req.session.user.username
   });
 });
 

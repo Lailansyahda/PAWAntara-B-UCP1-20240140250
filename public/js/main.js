@@ -1,4 +1,3 @@
-// public/js/main.js
 document.addEventListener("DOMContentLoaded", function () {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const navMenu = document.getElementById("navMenu");
@@ -19,28 +18,64 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // ===== Logout (tersedia di navbar semua halaman jika sudah login) =====
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async function (event) {
+      event.preventDefault();
+      try {
+        await fetch("/api/logout", { method: "POST" });
+      } catch (err) {
+        // tetap redirect walau request gagal
+      }
+      window.location.href = "/";
+    });
+  }
+
   const chatForm = document.getElementById("chatForm");
   const chatBox = document.getElementById("chatBox");
 
   if (chatForm && chatBox) {
-    chatForm.addEventListener("submit", function (event) {
+    chatForm.addEventListener("submit", async function (event) {
       event.preventDefault();
+
       const input = document.getElementById("pertanyaan");
       const question = input.value.trim();
-      if (question === "") return;
+
+      if (question === "") {
+        return;
+      }
 
       const userBubble = document.createElement("p");
       userBubble.className = "chat-bubble chat-bubble-user";
       userBubble.textContent = question;
       chatBox.appendChild(userBubble);
-
-      const infoBubble = document.createElement("p");
-      infoBubble.className = "chat-bubble chat-bubble-bot";
-      infoBubble.textContent = "Fitur balasan otomatis akan aktif di Sprint 2 (POST /api/chat).";
-      chatBox.appendChild(infoBubble);
-
       chatBox.scrollTop = chatBox.scrollHeight;
       input.value = "";
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: question })
+        });
+        const result = await response.json();
+
+        const botBubble = document.createElement("p");
+        botBubble.className = "chat-bubble chat-bubble-bot";
+        botBubble.textContent =
+          result.data && result.data.reply
+            ? result.data.reply
+            : "Maaf, terjadi kesalahan pada server.";
+        chatBox.appendChild(botBubble);
+      } catch (err) {
+        const errorBubble = document.createElement("p");
+        errorBubble.className = "chat-bubble chat-bubble-bot";
+        errorBubble.textContent = "Gagal menghubungi server, coba lagi ya.";
+        chatBox.appendChild(errorBubble);
+      }
+
+      chatBox.scrollTop = chatBox.scrollHeight;
     });
   }
 });
