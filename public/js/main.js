@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ===== Logout (tersedia di navbar semua halaman jika sudah login) =====
   const logoutBtn = document.getElementById("logoutBtn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async function (event) {
@@ -26,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         await fetch("/api/logout", { method: "POST" });
       } catch (err) {
-        // tetap redirect walau request gagal
+
       }
       window.location.href = "/";
     });
