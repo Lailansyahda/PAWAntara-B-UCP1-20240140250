@@ -3,19 +3,22 @@
 }
 
 :root {
-  --blue-900: #0b3d91;
-  --blue-700: #1d4ed8;
-  --blue-600: #2563eb;
-  --blue-500: #3b82f6;
-  --blue-100: #dbeafe;
-  --blue-50: #eff6ff;
+  --navy-900: #0d2340;
+  --navy-800: #123059;
+  --navy-700: #16407a;
+  --orange-600: #f2994a;
+  --orange-500: #f7a94a;
+  --orange-100: #fdf1e2;
+  --cream-bg: #fdf7ee;
+  --cream-card: #ffffff;
+  --text-dark: #1f2933;
 }
 
 body {
   margin: 0;
   font-family: "Segoe UI", Arial, sans-serif;
-  color: #1f2933;
-  background-color: #f5f8ff;
+  color: var(--text-dark);
+  background-color: var(--cream-bg);
 }
 
 a {
@@ -25,12 +28,12 @@ a {
 
 /* ===== Navbar ===== */
 .site-header {
-  background: linear-gradient(135deg, var(--blue-700), var(--blue-900));
+  background-color: var(--navy-900);
   color: #fff;
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: 0 2px 12px rgba(29, 78, 216, 0.25);
+  box-shadow: 0 2px 12px rgba(13, 35, 64, 0.25);
 }
 
 .navbar {
@@ -42,7 +45,7 @@ a {
 }
 
 .brand-link {
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1.3rem;
   color: #fff;
   letter-spacing: 0.02em;
@@ -86,7 +89,7 @@ a {
   display: none;
   flex-direction: column;
   width: 100%;
-  background-color: var(--blue-900);
+  background-color: var(--navy-800);
 }
 
 .nav-menu.show {
@@ -94,7 +97,7 @@ a {
 }
 
 .nav-menu li {
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .nav-menu a {
@@ -111,28 +114,50 @@ a {
 
 .nav-menu a.active {
   font-weight: 700;
-  background-color: rgba(255, 255, 255, 0.14);
+  color: var(--orange-500);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
-/* ===== Hero ===== */
+/* ===== Hero (kartu navy besar ala referensi) ===== */
 .hero {
-  background: linear-gradient(135deg, var(--blue-50), #ffffff);
-  padding: 3.5rem 1.25rem;
-  text-align: center;
+  background: linear-gradient(135deg, var(--navy-900), var(--navy-700));
+  color: #fff;
+  margin: 1.25rem;
+  border-radius: 28px;
+  padding: 3rem 1.75rem;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(247, 169, 74, 0.35), transparent 70%);
+  border-radius: 50%;
+}
+
+.hero-content {
+  max-width: 520px;
+  position: relative;
+  z-index: 1;
 }
 
 .hero h1 {
-  font-size: 1.9rem;
+  font-size: 2rem;
   margin-bottom: 0.85rem;
-  color: var(--blue-900);
   font-weight: 800;
   letter-spacing: -0.01em;
+  line-height: 1.15;
 }
 
 .hero p {
-  max-width: 640px;
-  margin: 0 auto 1.75rem;
-  color: #52606d;
+  margin: 0 0 1.75rem;
+  color: #dbe6f5;
   line-height: 1.6;
 }
 
@@ -142,75 +167,112 @@ a {
   display: inline-block;
   padding: 0.7rem 1.5rem;
   border-radius: 999px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   border: none;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+  color: var(--navy-900);
+  box-shadow: 0 4px 14px rgba(242, 153, 74, 0.4);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 6px 18px rgba(242, 153, 74, 0.5);
 }
 
 .btn-secondary {
   background-color: #fff;
-  color: var(--blue-700);
-  border: 2px solid var(--blue-500);
+  color: var(--navy-800);
+  border: 2px solid var(--navy-800);
   margin-top: 0.5rem;
+  font-size: 0.9rem;
+  padding: 0.5rem 1.1rem;
 }
 
 .btn-secondary:hover {
-  background-color: var(--blue-50);
+  background-color: var(--orange-100);
+  border-color: var(--orange-600);
+}
+
+/* ===== Category icon (pengganti foto produk) ===== */
+.product-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background-color: var(--orange-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
 }
 
 /* ===== Product grid (CSS Grid) ===== */
 .preview-produk,
 .product-list {
-  padding: 2.5rem 1.25rem;
+  padding: 1.5rem 1.25rem 2.5rem;
 }
 
-.preview-produk h2 {
+.preview-produk h2,
+.product-list h2 {
   margin-bottom: 1.25rem;
-  color: var(--blue-900);
-  font-weight: 700;
+  color: var(--navy-900);
+  font-weight: 800;
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  margin-top: 2rem;
+}
+
+.section-heading h2 {
+  color: var(--navy-900);
+  font-weight: 800;
+  margin: 0;
+}
+
+.section-heading a {
+  color: var(--orange-600);
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 }
 
 .product-card {
-  background-color: #fff;
-  border: 1px solid #e2e8f5;
-  border-radius: 16px;
-  padding: 1.25rem;
+  background-color: var(--cream-card);
+  border: 1px solid #f0e4d0;
+  border-radius: 18px;
+  padding: 1.1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  gap: 0.3rem;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .product-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 10px 24px rgba(13, 35, 64, 0.1);
 }
 
 .product-category {
   text-transform: capitalize;
-  color: var(--blue-600);
-  font-size: 0.8rem;
-  font-weight: 600;
-  background-color: var(--blue-50);
+  color: var(--navy-700);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background-color: var(--orange-100);
   padding: 0.15rem 0.6rem;
   border-radius: 999px;
   display: inline-block;
@@ -218,18 +280,63 @@ a {
 }
 
 .product-price {
-  font-weight: 700;
-  color: var(--blue-700);
-  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--orange-600);
+  font-size: 1.1rem;
+  margin-top: 0.15rem;
+}
+
+.product-stock {
+  font-size: 0.85rem;
+  color: #7b8794;
+}
+
+/* ===== Deals banner (kartu gelap ala "Exclusive Deals") ===== */
+.deals-banner {
+  margin: 2rem 1.25rem 0;
+  background-color: var(--navy-900);
+  border-radius: 24px;
+  padding: 1.75rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.deals-badge {
+  display: inline-block;
+  background-color: var(--orange-500);
+  color: var(--navy-900);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  width: fit-content;
+  text-transform: uppercase;
+}
+
+.deals-banner h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.deals-banner p {
+  margin: 0;
+  color: #cdd9ec;
+  max-width: 460px;
 }
 
 /* ===== Filter form (Flexbox) ===== */
 .produk-header {
-  padding: 2.5rem 1.25rem 0;
+  padding: 2rem 1.25rem 0;
 }
 
 .produk-header h1 {
-  color: var(--blue-900);
+  color: var(--navy-900);
   font-weight: 800;
 }
 
@@ -239,11 +346,11 @@ a {
   gap: 1rem;
   align-items: flex-end;
   margin-top: 1.25rem;
-  background-color: #fff;
+  background-color: var(--cream-card);
   padding: 1.25rem;
-  border-radius: 16px;
-  border: 1px solid #e2e8f5;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  border-radius: 18px;
+  border: 1px solid #f0e4d0;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
 }
 
 .form-group {
@@ -254,15 +361,15 @@ a {
 
 .form-group label {
   font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--blue-900);
+  font-weight: 700;
+  color: var(--navy-900);
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
   padding: 0.6rem 0.75rem;
-  border: 1px solid #cbd5f5;
+  border: 1px solid #e6d9c2;
   border-radius: 10px;
   font-size: 0.95rem;
   outline: none;
@@ -272,8 +379,8 @@ a {
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: var(--blue-500);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  border-color: var(--orange-500);
+  box-shadow: 0 0 0 3px rgba(247, 169, 74, 0.2);
 }
 
 .empty-state {
@@ -288,14 +395,14 @@ a {
   max-width: 640px;
   margin: 2.5rem auto;
   padding: 1.75rem;
-  background-color: #fff;
-  border-radius: 18px;
-  border: 1px solid #e2e8f5;
+  background-color: var(--cream-card);
+  border-radius: 20px;
+  border: 1px solid #f0e4d0;
   box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
 }
 
 .product-detail h1 {
-  color: var(--blue-900);
+  color: var(--navy-900);
   font-weight: 800;
 }
 
@@ -304,7 +411,72 @@ a {
 }
 
 .not-found h1 {
-  color: var(--blue-700);
+  color: var(--orange-600);
+}
+
+/* ===== Login & Dashboard ===== */
+.form-error {
+  color: #dc2626;
+  font-weight: 600;
+  min-height: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.login-section {
+  max-width: 420px;
+  margin: 3rem auto;
+  padding: 1.75rem;
+  background-color: var(--cream-card);
+  border-radius: 22px;
+  border: 1px solid #f0e4d0;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+.login-section h1 {
+  color: var(--navy-900);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dashboard-header {
+  padding: 2rem 1.25rem 0;
+}
+
+.dashboard-header h1 {
+  color: var(--navy-900);
+  font-weight: 800;
+}
+
+.dashboard-form-section,
+.dashboard-list-section {
+  padding: 1.5rem 1.25rem;
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.btn-danger {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid #dc2626;
+  background-color: #fff;
+  color: #dc2626;
+  transition: background-color 0.15s ease;
+}
+
+.btn-danger:hover {
+  background-color: #fee2e2;
 }
 
 /* ===== Tanya AI ===== */
@@ -315,21 +487,21 @@ a {
 }
 
 .tanya-ai-section h1 {
-  color: var(--blue-900);
+  color: var(--navy-900);
   font-weight: 800;
 }
 
 .chat-box {
-  background-color: #fff;
-  border: 1px solid #e2e8f5;
-  border-radius: 16px;
+  background-color: var(--cream-card);
+  border: 1px solid #f0e4d0;
+  border-radius: 20px;
   padding: 1.25rem;
   min-height: 140px;
   margin-bottom: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
 }
 
 .chat-bubble {
@@ -340,14 +512,14 @@ a {
 }
 
 .chat-bubble-bot {
-  background-color: var(--blue-50);
-  color: #1f2933;
+  background-color: var(--orange-100);
+  color: var(--text-dark);
   align-self: flex-start;
   border-bottom-left-radius: 4px;
 }
 
 .chat-bubble-user {
-  background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+  background: linear-gradient(135deg, var(--navy-800), var(--navy-900));
   color: #fff;
   align-self: flex-end;
   border-bottom-right-radius: 4px;
@@ -361,8 +533,8 @@ a {
 
 /* ===== Footer ===== */
 .site-footer {
-  background: linear-gradient(135deg, var(--blue-900), #071e42);
-  color: #dbe6ff;
+  background: linear-gradient(135deg, var(--navy-900), #071733);
+  color: #cfd9ea;
   padding: 2.5rem 1.25rem 1.25rem;
   margin-top: 2.5rem;
 }
@@ -384,7 +556,7 @@ a {
   text-align: center;
   margin-top: 1.75rem;
   font-size: 0.85rem;
-  color: #9ab0e0;
+  color: #8fa2c4;
 }
 
 /* ============================================
@@ -394,7 +566,7 @@ a {
 /* Tablet ke atas (>= 640px) */
 @media (min-width: 640px) {
   .product-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -425,18 +597,35 @@ a {
   }
 
   .hero {
-    padding: 4.5rem 3rem;
+    padding: 4.5rem 3.5rem;
+    margin: 1.5rem 3rem;
   }
 
   .hero h1 {
-    font-size: 2.6rem;
+    font-size: 2.75rem;
+  }
+
+  .preview-produk,
+  .product-list,
+  .produk-header,
+  .section-heading,
+  .deals-banner {
+    margin-left: 3rem;
+    margin-right: 3rem;
   }
 
   .preview-produk,
   .product-list,
   .produk-header {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    padding-top: 1.5rem;
+  }
+
+  .section-heading {
+    padding: 0;
   }
 
   .product-grid {
@@ -449,67 +638,40 @@ a {
   }
 }
 
-/* ===== Login & Dashboard (Sprint 2) ===== */
-.form-error {
-  color: #dc2626;
-  font-weight: 600;
-  min-height: 1.2rem;
-  margin: 0.5rem 0;
-}
-
-.login-section {
-  max-width: 420px;
-  margin: 3rem auto;
-  padding: 1.75rem;
-  background-color: #fff;
-  border-radius: 18px;
-  border: 1px solid #e2e8f5;
-  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
-}
-
-.login-section h1 {
-  color: var(--blue-900);
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-}
-
-.login-form {
+/* ===== Product media (gambar produk + fallback ikon) ===== */
+.product-media {
+  width: 100%;
+  height: 140px;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: var(--orange-100);
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.6rem;
 }
 
-.dashboard-header {
-  padding: 2rem 1.25rem 0;
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.dashboard-header h1 {
-  color: var(--blue-900);
-  font-weight: 800;
-}
-
-.dashboard-form-section,
-.dashboard-list-section {
-  padding: 1.5rem 1.25rem;
-}
-
-.dashboard-actions {
+.product-icon {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  background-color: var(--orange-100);
   display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin-bottom: 0;
 }
 
-.btn-danger {
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 2px solid #dc2626;
-  background-color: #fff;
-  color: #dc2626;
-  transition: background-color 0.15s ease;
-}
-
-.btn-danger:hover {
-  background-color: #fee2e2;
+.image-hint {
+  font-size: 0.78rem;
+  color: #7b8794;
+  margin: -0.15rem 0 0.25rem;
 }

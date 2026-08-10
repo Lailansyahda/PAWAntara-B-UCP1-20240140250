@@ -1,12 +1,37 @@
+// public/js/dashboard.js
 document.addEventListener("DOMContentLoaded", function () {
   const listContainer = document.getElementById("adminProductList");
   const form = document.getElementById("productForm");
   const messageBox = document.getElementById("dashboardMessage");
   const submitBtn = document.getElementById("submitBtn");
   const cancelEditBtn = document.getElementById("cancelEditBtn");
+  const clearImageBtn = document.getElementById("clearImageBtn");
   const productIdInput = document.getElementById("productId");
+  const imageInput = document.getElementById("image");
 
   if (!listContainer || !form) return;
+
+  const categoryIcons = { sembako: "🌾", protein: "🥚", bumbu: "🧂", instan: "🍜" };
+
+  function getIcon(category) {
+    return categoryIcons[category] || "🛒";
+  }
+
+  function mediaHtml(product) {
+    const icon = getIcon(product.category);
+    if (product.image) {
+      return `
+        <img
+          src="${product.image}"
+          alt="${product.name}"
+          class="product-image"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        <div class="product-icon" aria-hidden="true" style="display:none;">${icon}</div>
+      `;
+    }
+    return `<div class="product-icon" aria-hidden="true">${icon}</div>`;
+  }
 
   async function loadProducts() {
     listContainer.innerHTML = "<p>Memuat data produk...</p>";
@@ -24,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const card = document.createElement("article");
         card.className = "product-card";
         card.innerHTML = `
+          <div class="product-media">${mediaHtml(product)}</div>
           <h3>${product.name}</h3>
           <p class="product-category">${product.category}</p>
           <p class="product-price">Rp${Number(product.price).toLocaleString("id-ID")}</p>
@@ -50,6 +76,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   cancelEditBtn.addEventListener("click", resetForm);
 
+  // Tombol "Hapus Gambar" -> kosongkan field URL gambar (produk akan tampil pakai ikon lagi)
+  clearImageBtn.addEventListener("click", function () {
+    imageInput.value = "";
+  });
+
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
     messageBox.textContent = "";
@@ -59,13 +90,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const price = document.getElementById("price").value;
     const stock = document.getElementById("stock").value;
     const description = document.getElementById("description").value.trim();
+    const image = imageInput.value.trim();
 
     if (!name || !category || price === "" || stock === "") {
       messageBox.textContent = "Nama, kategori, harga, dan stok wajib diisi.";
       return;
     }
 
-    const payload = { name, category, price, stock, description };
+    const payload = { name, category, price, stock, description, image };
     const id = productIdInput.value;
 
     try {
@@ -129,6 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("price").value = product.price;
         document.getElementById("stock").value = product.stock;
         document.getElementById("description").value = product.description || "";
+        imageInput.value = product.image || "";
 
         submitBtn.textContent = "Simpan Perubahan";
         cancelEditBtn.hidden = false;

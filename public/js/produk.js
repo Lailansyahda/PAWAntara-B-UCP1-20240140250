@@ -1,3 +1,4 @@
+// public/js/produk.js
 document.addEventListener("DOMContentLoaded", function () {
   const container = document.getElementById("productContainer");
   const filterForm = document.getElementById("filterForm");
@@ -5,6 +6,28 @@ document.addEventListener("DOMContentLoaded", function () {
   const searchInput = document.getElementById("search");
 
   if (!container || !filterForm) return;
+
+  const categoryIcons = { sembako: "🌾", protein: "🥚", bumbu: "🧂", instan: "🍜" };
+
+  function getIcon(category) {
+    return categoryIcons[category] || "🛒";
+  }
+
+  function mediaHtml(product) {
+    const icon = getIcon(product.category);
+    if (product.image) {
+      return `
+        <img
+          src="${product.image}"
+          alt="${product.name}"
+          class="product-image"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        <div class="product-icon" aria-hidden="true" style="display:none;">${icon}</div>
+      `;
+    }
+    return `<div class="product-icon" aria-hidden="true">${icon}</div>`;
+  }
 
   function renderProducts(list) {
     if (!list || list.length === 0) {
@@ -17,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const card = document.createElement("article");
       card.className = "product-card";
       card.innerHTML = `
+        <div class="product-media">${mediaHtml(product)}</div>
         <h2>${product.name}</h2>
         <p class="product-category">${product.category}</p>
         <p class="product-price">Rp${Number(product.price).toLocaleString("id-ID")}</p>

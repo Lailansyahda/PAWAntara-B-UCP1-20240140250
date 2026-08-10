@@ -17,8 +17,24 @@
         <p>Maaf, produk dengan ID tersebut tidak ada di toko kami.</p>
         <a href="/produk" class="btn-primary">Kembali ke Daftar Produk</a>
       </section>
-    <% } else { %>
+    <% } else {
+      const icons = { sembako: "🌾", protein: "🥚", bumbu: "🧂", instan: "🍜" };
+      const icon = icons[product.category] || "🛒";
+    %>
       <article class="product-detail">
+        <div class="product-media" style="height: 220px;">
+          <% if (product.image) { %>
+            <img
+              src="<%= product.image %>"
+              alt="<%= product.name %>"
+              class="product-image"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div class="product-icon" aria-hidden="true" style="display:none;"><%= icon %></div>
+          <% } else { %>
+            <div class="product-icon" aria-hidden="true"><%= icon %></div>
+          <% } %>
+        </div>
         <h1><%= product.name %></h1>
         <p class="product-category">Kategori: <%= product.category %></p>
         <p class="product-price">Harga: Rp<%= product.price.toLocaleString('id-ID') %></p>

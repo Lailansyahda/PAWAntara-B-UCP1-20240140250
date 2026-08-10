@@ -13,17 +13,49 @@
   <main>
     <section class="hero" aria-label="Sambutan toko">
       <div class="hero-content">
-        <h1>Belanja Sembako Gampang, Nggak Perlu Nunggu Balasan WA</h1>
-        <p>Cek stok dan harga produk kapan saja, atau tanya langsung ke fitur "Tanya AI" kami untuk pertanyaan seputar toko.</p>
+        <h1>Belanja Sembako Praktis, Nggak Perlu Nunggu Balasan WA</h1>
+        <p>
+          Cek stok dan harga produk kapan saja, atau tanya langsung ke fitur
+          "Tanya AI" kami untuk pertanyaan seputar toko.
+        </p>
         <a href="/produk" class="btn-primary">Lihat Semua Produk</a>
       </div>
     </section>
 
-    <section class="preview-produk" aria-labelledby="preview-heading">
+    <section class="deals-banner" aria-label="Info toko">
+      <span class="deals-badge">Toko Terpercaya</span>
+      <h2>Harga Bersaing, Stok Selalu Update</h2>
+      <p>
+        Semua harga dan stok di halaman ini dikelola langsung oleh Ibu Aries
+        lewat dashboard, jadi selalu sesuai kondisi toko yang sebenarnya.
+      </p>
+    </section>
+
+    <div class="section-heading">
       <h2 id="preview-heading">Produk Pilihan</h2>
+      <a href="/produk">Lihat semua &rarr;</a>
+    </div>
+
+    <section class="preview-produk" aria-labelledby="preview-heading">
       <div class="product-grid">
-        <% previewProducts.forEach(function(product) { %>
+        <% previewProducts.forEach(function(product) {
+          const icons = { sembako: "🌾", protein: "🥚", bumbu: "🧂", instan: "🍜" };
+          const icon = icons[product.category] || "🛒";
+        %>
           <article class="product-card">
+            <div class="product-media">
+              <% if (product.image) { %>
+                <img
+                  src="<%= product.image %>"
+                  alt="<%= product.name %>"
+                  class="product-image"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                />
+                <div class="product-icon" aria-hidden="true" style="display:none;"><%= icon %></div>
+              <% } else { %>
+                <div class="product-icon" aria-hidden="true"><%= icon %></div>
+              <% } %>
+            </div>
             <h3><%= product.name %></h3>
             <p class="product-category"><%= product.category %></p>
             <p class="product-price">Rp<%= product.price.toLocaleString('id-ID') %></p>

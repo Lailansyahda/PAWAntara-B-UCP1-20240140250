@@ -43,6 +43,13 @@
           <input type="number" id="stock" name="stock" min="0" required />
         </div>
 
+        <div class="form-group" style="min-width: 260px;">
+          <label for="image">URL Gambar Produk</label>
+          <input type="url" id="image" name="image" placeholder="https://contoh.com/gambar.jpg" />
+          <p class="image-hint">Kosongkan untuk pakai ikon otomatis sesuai kategori.</p>
+          <button type="button" class="btn-secondary" id="clearImageBtn">Hapus Gambar</button>
+        </div>
+
         <div class="form-group">
           <label for="description">Deskripsi</label>
           <textarea id="description" name="description" rows="2"></textarea>
