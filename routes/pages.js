@@ -4,7 +4,7 @@ const products = require("../data/products");
 const { requireAuthPage } = require("../middlewares/auth");
 
 router.get("/", (req, res) => {
-  const previewProducts = products.slice(0, 4);
+  const previewProducts = products.getAll().slice(0, 4);
   res.render("index", {
     title: "Beranda - Toko Sembako Ariesta",
     activePage: "beranda",
@@ -21,7 +21,7 @@ router.get("/produk", (req, res) => {
 
 router.get("/produk/:id", (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const product = products.find((p) => p.id === id);
+  const product = products.getById(id);
 
   if (!product) {
     return res.status(404).render("produk-detail", {

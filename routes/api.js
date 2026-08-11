@@ -3,39 +3,33 @@ const router = express.Router();
 const products = require("../data/products");
 const { requireAuthApi } = require("../middlewares/auth");
 
-function getNextId() {
-  const maxId = products.reduce((max, p) => (p.id > max ? p.id : max), 0);
-  return maxId + 1;
-}
-
 router.get("/products", (req, res) => {
   const { kategori, search } = req.query;
-  let filtered = products;
-
-  if (kategori) {
-    filtered = filtered.filter((p) => p.category.toLowerCase() === kategori.toLowerCase());
-  }
-  if (search) {
-    const keyword = search.toLowerCase();
-    filtered = filtered.filter((p) => p.name.toLowerCase().includes(keyword));
-  }
+  const data = products.getAll({ kategori, search });
 
   res.status(200).json({
     status: "success",
     message: "Data produk berhasil diambil",
-    data: filtered
+    data
   });
 });
 
 router.get("/products/:id", (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const product = products.find((p) => p.id === id);
+  const product = products.getById(id);
 
   if (!product) {
-    return res.status(404).json({ status: "error", message: "Produk tidak ditemukan" });
+    return res.status(404).json({
+      status: "error",
+      message: "Produk tidak ditemukan"
+    });
   }
 
-  res.status(200).json({ status: "success", message: "Produk ditemukan", data: product });
+  res.status(200).json({
+    status: "success",
+    message: "Produk ditemukan",
+    data: product
+  });
 });
 
 router.post("/products", requireAuthApi, (req, res) => {
@@ -48,52 +42,50 @@ router.post("/products", requireAuthApi, (req, res) => {
     });
   }
 
-  const newProduct = {
-    id: getNextId(),
-    name,
-    category,
-    price: Number(price),
-    stock: Number(stock),
-    image: image || "",
-    description: description || ""
-  };
+  const newProduct = products.create({ name, category, price, stock, description, image });
 
-  products.push(newProduct);
-
-  res.status(201).json({ status: "success", message: "Produk ditambahkan", data: newProduct });
+  res.status(201).json({
+    status: "success",
+    message: "Produk ditambahkan",
+    data: newProduct
+  });
 });
 
 router.put("/products/:id", requireAuthApi, (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const product = products.find((p) => p.id === id);
-
-  if (!product) {
-    return res.status(404).json({ status: "error", message: "Produk tidak ditemukan" });
-  }
-
   const { name, category, price, stock, description, image } = req.body;
 
-  if (name !== undefined) product.name = name;
-  if (category !== undefined) product.category = category;
-  if (price !== undefined) product.price = Number(price);
-  if (stock !== undefined) product.stock = Number(stock);
-  if (description !== undefined) product.description = description;
-  if (image !== undefined) product.image = image;
+  const updated = products.update(id, { name, category, price, stock, description, image });
 
-  res.status(200).json({ status: "success", message: "Produk diperbarui", data: product });
+  if (!updated) {
+    return res.status(404).json({
+      status: "error",
+      message: "Produk tidak ditemukan"
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    message: "Produk diperbarui",
+    data: updated
+  });
 });
 
 router.delete("/products/:id", requireAuthApi, (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const index = products.findIndex((p) => p.id === id);
+  const success = products.remove(id);
 
-  if (index === -1) {
-    return res.status(404).json({ status: "error", message: "Produk tidak ditemukan" });
+  if (!success) {
+    return res.status(404).json({
+      status: "error",
+      message: "Produk tidak ditemukan"
+    });
   }
 
-  products.splice(index, 1);
-
-  res.status(200).json({ status: "success", message: "Produk dihapus" });
+  res.status(200).json({
+    status: "success",
+    message: "Produk dihapus"
+  });
 });
 
 router.post("/chat", (req, res) => {
